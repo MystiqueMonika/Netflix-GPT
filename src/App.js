@@ -1,12 +1,18 @@
-import './App.css';
-import Body from './components/Body';
+import { Provider, useDispatch } from "react-redux";
+import "./App.css";
+import Body from "./components/Body";
+import appStore from "./utils/appStore";
 
-function App() {
+
+const App = () => {
+
   return (
-    <div className="text-sm bg-amber-800">
-      <Body/>
-    </div>
+    <Provider store={appStore}>
+      <div className="text-sm">
+        <Body />
+      </div>
+    </Provider>
   );
-}
+};
 
 export default App;
