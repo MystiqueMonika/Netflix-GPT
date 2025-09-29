@@ -1,9 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useRef, use } from "react";
 import Header from "./Header";
+import { validateData } from "../utils/validate";
+import { auth } from "../utils/firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+
 const Login = () => {
+  const dispatch = useDispatch();
   const [isSignUP, setIsSignUp] = useState(false);
+  const username = useRef("");
+  const email = useRef("");
+  const password = useRef("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (email, password) => {
+    const message = validateData(email, password);
+    setErrorMessage(message);
+
+    if (message === null) {
+      if (isSignUP) {
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed up
+            const user = userCredential.user;
+            updateProfile(auth.currentUser, {
+              displayName: username.current.value,
+              photoURL: "",
+            })
+              .then(() => {
+                console.log(auth.currentUser);
+                const { uid, displayName, email } = auth.currentUser;
+              dispatch(addUser({uid:uid,username:displayName,email:email}));
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+              
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMessage(errorMessage);
+          });
+      } else {
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            const { uid, displayName, email } = auth.currentUser;
+              dispatch(addUser({uid:uid,username:displayName,email:email}));
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMessage(errorMessage);
+          });
+      }
+    }
+  };
+
   return (
-    <div>
+    <div className="relative min-h-screen">
       <Header />
       <div>
         <img
@@ -12,65 +76,54 @@ const Login = () => {
         />
       </div>
 
-      <form
-        style={{
-          backgroundColor: "yellow",
-          backgroundImage: "linear-gradient(yellow, red)",
-          width: "500px",
-          height: "500px",
-          display: "flex",
-          flexFlow: "row",
-          position: "absolute",
-          bottom: "30px",
-        }}
-      >
-        <div className="text-2xl">
-          <h1>{isSignUP ? "Sign Up" : "Sign In"}</h1>
+      <div className="w-[500px] p-8 rounded-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-netflixRed to-netflixDark bg-opacity-90">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <h1 className="text-2xl">{isSignUP ? "Sign Up" : "Sign In"}</h1>
           {isSignUP && (
             <input
-              style={{ width: "180px", height: "40px", borderColor: "black" }}
+              ref={username}
+              className="w-90 h-20 bg-black"
               placeholder="Username"
               type="username"
             />
           )}
           <input
-            style={{
-              width: "180px",
-              height: "40px",
-              borderColor: "black",
-              margin: "4px",
-            }}
+            ref={email}
+            className="w-90 h-20 bg-black m-4"
             placeholder="Email or phone number"
             type="text"
           />
           <input
-            style={{ width: "180px", height: "40px", borderColor: "black" }}
+            ref={password}
+            className="w-90 h-20 bg-black m-4"
             placeholder="Password"
             type="password"
           />
+          <h2>{errorMessage?.length > 0 && errorMessage}</h2>
           <button
-            style={{
-              width: "180px",
-              height: "40px",
-              borderColor: "black",
-              margin: "4px",
+            className="w-90 h-20 bg-black m-4"
+            onClick={() => {
+              handleSubmit(email.current.value, password.current.value);
             }}
-            onClick={() => {}}
           >
             {isSignUP ? "Sign Up" : "Sign In"}
           </button>
           <p>
-            Not a Member?
+            {!isSignUP ? "Not a Member?" : "Already a Member?"}
             <span
               onClick={() => {
                 setIsSignUp(!isSignUP);
               }}
             >
-              {isSignUP ? "Sign Up" : "Sign In"}
+              {!isSignUP ? "Sign Up" : "Sign In"}
             </span>
           </p>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
