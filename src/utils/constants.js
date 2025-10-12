@@ -5,7 +5,7 @@ export const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3YjY3MGJkYmZmNTI3M2U5ZDhlZmZmMTQxZThhMmNkYiIsIm5iZiI6MTc1OTE2OTAyMi4yODksInN1YiI6IjY4ZGFjOWZlNTNmNmY0MTNhOGM3NmVhNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.RtExDPEo7OvitWbediljG3oFvlfsCuU4HxHrvvXXPtQ'
+    Authorization: 'Bearer' +  process.env.REACT_APP_TMDB_TOKEN
   }
 };
 export const supportedLangs = [
