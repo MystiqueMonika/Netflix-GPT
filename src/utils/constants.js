@@ -1,5 +1,7 @@
 export const NETFLIX_LOGO = 'https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production_2025-08-26/consent/87b6a5c0-0104-4e96-a291-092c11350111/0198e689-25fa-7d64-bb49-0f7e75f898d2/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png';
 export const USER_LOGO = 'https://occ-0-1492-3663.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABeuqjuQsRgqEDlibtJTI5BMf8IxhLlLOeIT6xI4TL57mqv7XHja43gx02S8pZVe8JNGRQXjnrUk1VcsTXqi83tFKPI6OR3k.png?r=bd7';
+export const NETFLIX_BG = 'https://assets.nflxext.com/ffe/siteui/vlv3/bebd95d0-65f9-41a9-9d12-4794db63653e/web/IN-en-20250922-TRIFECTA-perspective_5e75cfb4-3797-4f17-866b-181ff91a51dd_large.jpg';
+export const OPENAPI_KEY='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';
 export const options = {
   method: 'GET',
   headers: {
@@ -7,3 +9,8 @@ export const options = {
     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3YjY3MGJkYmZmNTI3M2U5ZDhlZmZmMTQxZThhMmNkYiIsIm5iZiI6MTc1OTE2OTAyMi4yODksInN1YiI6IjY4ZGFjOWZlNTNmNmY0MTNhOGM3NmVhNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.RtExDPEo7OvitWbediljG3oFvlfsCuU4HxHrvvXXPtQ'
   }
 };
+export const supportedLangs = [
+  {identifier: "en", name: "English"},
+  {identifier: "hi", name: "Hindi"},
+  {identifier: "fr", name: "French"}
+]

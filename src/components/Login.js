@@ -67,7 +67,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div style={{position: "absolute"}}>
       <Header />
       <div>
         <img
